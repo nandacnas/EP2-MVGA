@@ -505,9 +505,19 @@ Matrix * get_transformation_matrix(Vector e1, Vector e2, Vector t){
 
 Vector transform(Matrix * m, Vector v){
 
-	// TODO: implementar!
-		
-	return v;
+	Matrix * vetor = create_matrix(2, 1);
+
+	vetor->m[1][1] = v.x;
+	vetor->m[2][1] = v.y;
+
+	Matrix * resultante = multiply(m, vetor);
+
+	Vector * retorno =  create_vector();
+	retorno.x = resultante->m[1][1];
+	retorno.y = resultante->m[2][1];
+
+	//return v;
+	return retorno;
 }
 
 Matrix * get_observer_matrix(Vector position, Vector direction){
