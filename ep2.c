@@ -455,11 +455,10 @@ Matrix * multiply(Matrix * a, Matrix * b){
   	int i;
   	int somaprod;
 
-	int M1L=a->lin, M1C=a->col, M2L=b->lin, M2C=b->col;
-  	for(linha=0; linha<M1L; linha++){
-    	for(coluna=0; coluna<M2C; coluna++){
+  	for(linha = 0; linha < a->lin; linha++){
+    	for(coluna = 0; coluna < b->col; coluna++){
       		somaprod=0;
-      		for(i=0; i<M1L; i++){
+      		for(i = 0; i < a->col; i++){
 				somaprod+=a->m[linha][i]*b->m[i][coluna];
 			}
 			resultante->m[linha][coluna]=somaprod;
@@ -470,16 +469,24 @@ Matrix * multiply(Matrix * a, Matrix * b){
 
 Matrix * get_rotation_matrix(double theta){
 
-	// TODO: implementar!
+	//matriz composta pelos senos e cossenos do angulo theta
+	Matrix * resultante = create_identity(2);
+
+	resultante->m[1][1] = cos(theta);
+	resultante->m[1][2] = -sen(theta);
+	resultante->m[2][1] = sen(theta);
+	resultante->m[2][2] = cos(theta);
 		
-	return create_identity(3);
+	return create_identity(3); //retorno correto?
 }
 
 Matrix * get_scale_matrix(double k){
 
-	// TODO: implementar!
-		
-	return create_identity(3);
+	Matrix * resultante = create_identity(3);
+	int i;
+	for(i = 0; i < resultante->lin; i++) resultante->m[i][i] = k;
+
+	return create_identity(3); //retorno correto?
 }
 
 Matrix * get_translation_matrix(Vector v){
