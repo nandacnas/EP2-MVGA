@@ -445,9 +445,27 @@ Matrix * invert3x3(Matrix * mat){
 
 Matrix * multiply(Matrix * a, Matrix * b){
 
-	// TODO: implementar!
-		
-	return NULL;
+	Matrix * resultante = (Matrix *) malloc (sizeof(Matrix)); 
+
+	resultante->lin = a->lin;
+	resultante->col = b->col;
+
+	int linha;
+  	int coluna;
+  	int i;
+  	int somaprod;
+
+	int M1L=a->lin, M1C=a->col, M2L=b->lin, M2C=b->col;
+  	for(linha=0; linha<M1L; linha++){
+    	for(coluna=0; coluna<M2C; coluna++){
+      		somaprod=0;
+      		for(i=0; i<M1L; i++){
+				somaprod+=a->m[linha][i]*b->m[i][coluna];
+			}
+			resultante->m[linha][coluna]=somaprod;
+		}
+	}
+	return resultante;
 }
 
 Matrix * get_rotation_matrix(double theta){
