@@ -506,8 +506,10 @@ Matrix * get_translation_matrix(Vector v){
 Matrix * get_transformation_matrix(Vector e1, Vector e2, Vector t){
 
 	// TODO: implementar!
+	Matrix bases = create_identity(3); //o que fazer com os dois vetores
 
-
+	Matrix translacao = get_translation_matrix(t);
+	Matrix * resultante = multiply(bases ,translacao);
 		
 	return create_identity(3);
 }
