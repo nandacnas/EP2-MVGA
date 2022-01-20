@@ -470,45 +470,55 @@ Matrix * multiply(Matrix * a, Matrix * b){
 Matrix * get_rotation_matrix(double theta){
 
 	//matriz composta pelos senos e cossenos do angulo theta
-	Matrix * resultante = create_identity(2);
+	Matrix * resultante = create_identity(3);
 
 	resultante->m[1][1] = cos(theta);
 	resultante->m[1][2] = -sen(theta);
 	resultante->m[2][1] = sen(theta);
 	resultante->m[2][2] = cos(theta);
 		
-	return create_identity(3); //retorno correto?
+	//return create_identity(3);
+	return resultante;
 }
 
 Matrix * get_scale_matrix(double k){
 
+	//uma matriz identidade onde a diagonal principal é composta pelo valor escalar
 	Matrix * resultante = create_identity(3);
-	int i;
-	for(i = 0; i < resultante->lin; i++) resultante->m[i][i] = k;
+	resultante->m[1][1] = k;
+	resultante->m[2][2] = k;
 
-	return create_identity(3); //retorno correto?
+	//return create_identity(3);
+	return resultante;
 }
 
+//a translação deve ser sempre a ultima a ser aplicada!!!!!!!
 Matrix * get_translation_matrix(Vector v){
 
-	// TODO: implementar!
-		
-	return create_identity(3);
+	Matrix * resultante = create_identity(3);
+	resultante->m[1][3] = v.x;
+	resultante->m[2][3] = v.y;
+
+	//return create_identity(3);
+	return resultante;
 }
 
 Matrix * get_transformation_matrix(Vector e1, Vector e2, Vector t){
 
 	// TODO: implementar!
+
+
 		
 	return create_identity(3);
 }
 
 Vector transform(Matrix * m, Vector v){
 
-	Matrix * vetor = create_matrix(2, 1);
+	Matrix * vetor = create_matrix(3, 1);
 
 	vetor->m[1][1] = v.x;
 	vetor->m[2][1] = v.y;
+	vetor->m[3][1] = 1;
 
 	Matrix * resultante = multiply(m, vetor);
 
