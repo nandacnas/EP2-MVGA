@@ -543,26 +543,26 @@ Matrix * get_observer_matrix(Vector position, Vector direction){
 //                                                                        //
 // Programa principal. Le um arquivo de entrada com a seguinte estrutura: //
 //                                                                        //
-//	IMAGE_WIDTH IMAGE_HEIGHT BG_COLOR                                 //
-//	OBSERVER_X, OBSERVER_Y, DIRECTION_X, DIRECTION_Y                  //
-//	N_SHAPES                                                          //
-//	N_VERTICES_SHAPE0 X_0 Y_0 X_1 Y_1 ... X_(N-1) Y_(N-1)             //
-//	N_VERTICES_SHAPE1 X_0 Y_0 X_1 Y_1 ... X_(N-1) Y_(N-1)             //
-//	N_VERTICES_SHAPE2 X_0 Y_0 X_1 Y_1 ... X_(N-1) Y_(N-1)             //
-//	...                                                               //
-//	<DRAW_COMMAND_0>                                                  //
-//	<DRAW_COMMAND_1>                                                  //
-//	<DRAW_COMMAND_2>                                                  //
-//	...                                                               //
-//	END                                                               //
+//	IMAGE_WIDTH IMAGE_HEIGHT BG_COLOR                                     //
+//	OBSERVER_X, OBSERVER_Y, DIRECTION_X, DIRECTION_Y                  	  //
+//	N_SHAPES                                                              //
+//	N_VERTICES_SHAPE0 X_0 Y_0 X_1 Y_1 ... X_(N-1) Y_(N-1)                 //
+//	N_VERTICES_SHAPE1 X_0 Y_0 X_1 Y_1 ... X_(N-1) Y_(N-1)                 //
+//	N_VERTICES_SHAPE2 X_0 Y_0 X_1 Y_1 ... X_(N-1) Y_(N-1)                 //
+//	...                                                                   //
+//	<DRAW_COMMAND_0>                                                      //
+//	<DRAW_COMMAND_1>                                                      //
+//	<DRAW_COMMAND_2>                                                      //
+//	...                                                                   //
+//	END                                                                   //
 //                                                                        //
 // Sendo que cada linha referente a um comando de desenho pode ser:       //
 //                                                                        //
-//	DRAW_SHAPE SHAPE_ID COLOR ROTATION SCALE T_X T_Y                  //
+//	DRAW_SHAPE SHAPE_ID COLOR ROTATION SCALE T_X T_Y                      //
 //                                                                        //
 // OU                                                                     //
 //                                                                        //
-//	DRAW_SHAPE_BASE SHAPE_ID COLOR E1_X E1_Y E2_X E2_Y T_X T_Y        //
+//	DRAW_SHAPE_BASE SHAPE_ID COLOR E1_X E1_Y E2_X E2_Y T_X T_Y            //
 //                                                                        //
 // E gera uma imagem a partir das configurações e comandos especificados. //
 //                                                                        //
@@ -580,21 +580,21 @@ int main(int argc, char ** argv){
 	char * input_file_name;		// nome do arquivo de entrada (com as definicoes do cena/desenho)
 	char * output_file_name;	// nome do arquivo de saida (imagem gerada a partir das definicoes do arquivo de entrada)
 	
-	int width;			// largura da imagem a ser gerada
-	int height;			// altura da imagem a ser gerada
+	int width;					// largura da imagem a ser gerada
+	int height;					// altura da imagem a ser gerada
 	int background_color;		// cor de fundo da imagem a ser gerada
 	
-	int n_shapes;			// quantidade de shapes definidos no arquivo de entrada
-	int i, j;			// variaveis de uso geral em iteracoes 
+	int n_shapes;				// quantidade de shapes definidos no arquivo de entrada
+	int i, j;					// variaveis de uso geral em iteracoes 
 	
-	Vector observer;		// vetor que representa a posicao do observador na cena a ser desenhada
-	Vector direction;		// vetor que indica a direcao para a qual o observador olha na cena
-	Vector v;			// variavel do tipo vetor de uso geral
+	Vector observer;			// vetor que representa a posicao do observador na cena a ser desenhada
+	Vector direction;			// vetor que indica a direcao para a qual o observador olha na cena
+	Vector v;					// variavel do tipo vetor de uso geral
 	
-	Shape * shapes;			// vetor de shapes. Usado para armazenar os shapes definidos no arquivo de entrada
+	Shape * shapes;				// vetor de shapes. Usado para armazenar os shapes definidos no arquivo de entrada
 
-	FILE * in;			// FILE handler para o arquivo de entrada
-	Image * img;			// imagem na qual as operacoes de desenho serao realizada
+	FILE * in;					// FILE handler para o arquivo de entrada
+	Image * img;				// imagem na qual as operacoes de desenho serao realizada
 
 	///////////////////////////////////////////
 	//                                       //

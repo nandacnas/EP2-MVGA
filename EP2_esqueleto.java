@@ -440,17 +440,31 @@ class Matrix {
 
 		Matrix bases = Matrix.identity(3); //o que fazer com os dois vetores
 
-		Matrix translacao = Matrix.get_translation_matrix(t);
-		//Matrix resultante = this.multiply
+		bases.m[0][0] = e1.getX();
+		bases.m[1][0] = e1.getY();
+		bases.m[2][0] = 0;
+
+		bases.m[0][1] = e2.getX();
+		bases.m[1][1] = e2.getY();
+		bases.m[2][1] = 0;
+
+		bases.m[0][2] = t.getX();
+		bases.m[1][2] = t.getY();
+		bases.m[2][2] = 1;
 			
-		return Matrix.identity(3);
+		return bases;
 	}
 
 	public static Matrix get_observer_matrix(Vector position, Vector direction){
 
-		// TODO: implementar!
-		
-		return Matrix.identity(3);
+		Matrix bases_observador = identity(3);
+
+		Matrix rotacionar = get_rotation_matrix(-90);
+		Vector observer_right = rotacionar.transform(position);
+
+		bases_observador = get_transformation_matrix(observer_right, direction, position);
+
+		return bases_observador;
 	}
 }
 
@@ -608,7 +622,7 @@ public class EP2_esqueleto {
 					matriz_temporaria = matriz_transformacao;
 				}
 
-				matriz_final = matriz_observador.multiply(matriz_temporaria);
+				matriz_final = matriz_observador.multiply(matriz_temporaria.invert3x3());
 
 				Shape s = shapes[shape_id];
 
