@@ -378,12 +378,12 @@ class Matrix {
 		int linha;
 		int coluna;
 		int i;
-		int somaprod;
+		double somaprod;
 
-		for(linha = 0; linha < this.lin; linha++){
-			for(coluna = 0; coluna < m.col; coluna++){
-				  somaprod = 0;
-				  for(i = 0; i < this.col; i++){
+		for(linha = 0; linha < resultante.lin; linha++){
+			for(coluna = 0; coluna < resultante.col; coluna++){
+				somaprod = 0;
+				for(i = 0; i < m.lin; i++){
 					somaprod += this.m[linha][i]*m.m[i][coluna];
 				}
 				resultante.m[linha][coluna] = somaprod;
@@ -397,23 +397,23 @@ class Matrix {
 
 		Matrix vetor = new Matrix(3, 1);
 
-		vetor.m[1][1] = v.getX();
-		vetor.m[2][1] = v.getY();
-		vetor.m[3][1] = 1;
+		vetor.m[0][0] = v.getX();
+		vetor.m[1][0] = v.getY();
+		vetor.m[2][0] = 1;
 
 		Matrix resultante = this.multiply(vetor);
 
-		return new Vector(resultante.m[1][1], resultante.m[2][1]);
+		return new Vector(resultante.m[0][0], resultante.m[1][0]);
 	}
 
 	public static Matrix get_rotation_matrix(double theta){
 
 		Matrix resultante = Matrix.identity(3);
 
+		resultante.m[0][0] = Math.cos(theta);
+		resultante.m[0][1] = -Math.sin(theta);
+		resultante.m[1][0] = Math.sin(theta);
 		resultante.m[1][1] = Math.cos(theta);
-		resultante.m[1][2] = -Math.sin(theta);
-		resultante.m[2][1] = Math.sin(theta);
-		resultante.m[2][2] = Math.cos(theta);
 		
 		return resultante;
 	}
@@ -421,8 +421,8 @@ class Matrix {
 	public static Matrix get_scale_matrix(double k){
 
 		Matrix resultante = Matrix.identity(3);
+		resultante.m[0][0] = k;
 		resultante.m[1][1] = k;
-		resultante.m[2][2] = k;
 		
 		return resultante;
 	}
@@ -430,8 +430,8 @@ class Matrix {
 	public static Matrix get_translation_matrix(Vector v){
 
 		Matrix resultante = Matrix.identity(3);
-		resultante.m[1][3] = v.getX();
-		resultante.m[2][3] = v.getY();
+		resultante.m[0][2] = v.getX();
+		resultante.m[1][2] = v.getY();
 
 		return resultante;
 	}
@@ -582,17 +582,20 @@ public class EP2_esqueleto {
 
 				int shape_id = in.nextInt();
 				int color = in.nextInt();
-				Matrix matriz = new Matrix(height, width);
+				Matrix matriz_temporaria = null;
+				Matrix matriz_observador = Matrix.get_observer_matrix(observer, direction);
+				Matrix matriz_final = null;
 			
 				if(command.equals(DRAW_SHAPE)){
 					double rotation = in.nextDouble();
 					double scale = in.nextDouble();
 					Vector t = new Vector(in.nextDouble(), in.nextDouble());
 
-					matriz = matriz.get_rotation_matrix(rotation);
-					matriz = matriz.get_scale_matrix(scale);
-					matriz = matriz.get_translation_matrix(t);
+					Matrix matriz_rotacao = Matrix.get_rotation_matrix(rotation);
+					Matrix matriz_escala = Matrix.get_scale_matrix(scale);
+					Matrix matriz_translacao = Matrix.get_translation_matrix(t);
 
+					matriz_temporaria = matriz_translacao.multiply(matriz_rotacao.multiply(matriz_escala));
 				}
 			
 				if(command.equals(DRAW_SHAPE_BASE)){
@@ -600,15 +603,20 @@ public class EP2_esqueleto {
 					Vector e2 = new Vector(in.nextDouble(), in.nextDouble());
 					Vector t = new Vector(in.nextDouble(), in.nextDouble());
 			
-					matriz = matriz.get_transformation_matrix(e1, e2, t);
+					Matrix matriz_transformacao = Matrix.get_transformation_matrix(e1, e2, t);
+
+					matriz_temporaria = matriz_transformacao;
 				}
+
+				matriz_final = matriz_observador.multiply(matriz_temporaria);
 
 				Shape s = shapes[shape_id];
 
 				for(int i = 0; i < s.nVertices() - 1; i++){
 
-					Vector v1 = matriz.transform(s.get(i));
-					Vector v2 = matriz.transform(s.get(i + 1));
+					Vector v1 = matriz_final.transform(s.get(i));
+					Vector v2 = matriz_final.transform(s.get(i + 1));
+
 					img.draw_line(v1, v2, color);
 				}
 			}
