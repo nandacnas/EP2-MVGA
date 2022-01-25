@@ -411,6 +411,8 @@ class Matrix {
 
 		Matrix resultante = Matrix.identity(3);
 
+		theta = Math.toRadians(theta);
+
 		resultante.m[0][0] = Math.cos(theta);
 		resultante.m[0][1] = -Math.sin(theta);
 		resultante.m[1][0] = Math.sin(theta);
@@ -439,7 +441,7 @@ class Matrix {
 
 	public static Matrix get_transformation_matrix(Vector e1, Vector e2, Vector t){
 
-		Matrix bases = Matrix.identity(3); //o que fazer com os dois vetores
+		Matrix bases = Matrix.identity(3);
 
 		bases.m[0][0] = e1.getX();
 		bases.m[1][0] = e1.getY();
@@ -460,11 +462,10 @@ class Matrix {
 
 		Matrix bases_observador = identity(3);
 
-		//TODO: acertar isso aqui
-		Matrix rotacionar = get_rotation_matrix(-0.25);
+		Matrix rotacionar = get_rotation_matrix(-90.0);
 		Vector observer_right = rotacionar.transform(direction);
 
-		bases_observador = get_transformation_matrix(observer_right, direction, position);
+		bases_observador = get_transformation_matrix(observer_right, direction, position).invert3x3();
 
 		return bases_observador;
 	}
@@ -622,13 +623,11 @@ public class EP2_esqueleto {
 					Matrix matriz_transformacao = Matrix.get_transformation_matrix(e1, e2, t);
 
 					matriz_temporaria = matriz_transformacao;
-
-					//matriz_temporaria = matriz_observador.multiply(matriz_transformacao.invert3x3());
 				}
 
-				matriz_final = matriz_observador.multiply(matriz_temporaria.invert3x3());
-
 				//matriz_final = matriz_temporaria;
+
+				matriz_final = matriz_observador.multiply(matriz_temporaria);//.invert3x3());
 
 				Shape s = shapes[shape_id];
 
