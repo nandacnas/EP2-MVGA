@@ -460,8 +460,9 @@ class Matrix {
 
 		Matrix bases_observador = identity(3);
 
-		Matrix rotacionar = get_rotation_matrix(-90);
-		Vector observer_right = rotacionar.transform(position);
+		//TODO: acertar isso aqui
+		Matrix rotacionar = get_rotation_matrix(-0.25);
+		Vector observer_right = rotacionar.transform(direction);
 
 		bases_observador = get_transformation_matrix(observer_right, direction, position);
 
