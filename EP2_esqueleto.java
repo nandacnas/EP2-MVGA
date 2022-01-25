@@ -621,9 +621,13 @@ public class EP2_esqueleto {
 					Matrix matriz_transformacao = Matrix.get_transformation_matrix(e1, e2, t);
 
 					matriz_temporaria = matriz_transformacao;
+
+					//matriz_temporaria = matriz_observador.multiply(matriz_transformacao.invert3x3());
 				}
 
 				matriz_final = matriz_observador.multiply(matriz_temporaria.invert3x3());
+
+				//matriz_final = matriz_temporaria;
 
 				Shape s = shapes[shape_id];
 
